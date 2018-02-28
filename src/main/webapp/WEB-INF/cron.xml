@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
 	<cron>
-		<url>/dailydigest</url>
+		<url>/cron/dailydigest</url>
 		<description>daily summary of new posts</description>
-		<schedule>every 24 hours at 5:00</schedule>
+		<schedule>every day 17:00</schedule>
 		<timezone>America/Chicago</timezone>
 	</cron>
 </cronentries>

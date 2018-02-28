@@ -2,6 +2,7 @@ package blog;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,44 +19,22 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public class CronServlet extends HttpServlet {
 	
+	private static final Logger _logger = Logger.getLogger(CronServlet.class.getName());
+	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
-
             throws IOException {
-
-    UserService userService = UserServiceFactory.getUserService();
-
-    User user = userService.getCurrentUser();
-
-
-//    String guestbookName = req.getParameter("guestbookName");
-
-//    Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
-
-    String content = req.getParameter("content");
-
-    Date date = new Date();
-
-    Entity post = new Entity("BlogPost");
-
-    String title = req.getParameter("title");
-    
-    post.setProperty("user", user);
-
-    post.setProperty("date", date);
-
-    post.setProperty("content", content);
-    
-    post.setProperty("title", title);
-
-
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-    datastore.put(post);
-
-
-
-    resp.sendRedirect("/blog.jsp");
 	}
 	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+			try {
+			_logger.info("Cron Job has been executed");
+			//Put your logic here
+			//BEGIN
+			//END
+			}
+			catch (Exception ex) {
+			//Log any exceptions in your Cron Job
+			}
+	}
 }
