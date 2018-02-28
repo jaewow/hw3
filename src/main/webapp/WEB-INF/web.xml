@@ -10,14 +10,21 @@
 	</servlet>
 
 	<servlet-mapping>
-
         <servlet-name>blog</servlet-name>
-
         <url-pattern>/blog</url-pattern>
+    </servlet-mapping>
+    
+	<servlet>
+		<servlet-name>cron</servlet-name>
+		<servlet-class>cron.CronServlet</servlet-class>
+	</servlet>
 
-    </servlet-mapping>           
+	<servlet-mapping>
+        <servlet-name>cron</servlet-name>
+        <url-pattern>/cron</url-pattern>
+    </servlet-mapping>
    
-  <welcome-file-list>
-    <welcome-file>blog.jsp</welcome-file>
-  </welcome-file-list>
+	<welcome-file-list>
+		<welcome-file>blog.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>

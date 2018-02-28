@@ -71,6 +71,10 @@
     }
 
 	%>
+	
+	<form action="/allPosts.jsp">
+    <div><input type="submit" value="View All Posts"></div>
+    </form>
 
  	<hr>
 
@@ -169,9 +173,6 @@
 
     </form>
     
-    <form action="/allPosts.jsp">
-    <div><input type="submit" value="All Posts"></div>
-    </form>
     <% } %>
 
  
