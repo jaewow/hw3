@@ -30,17 +30,46 @@
 
     User user = userService.getCurrentUser();
 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    
+    boolean isSubscribed = false;
+    
     if (user != null) {
 
       pageContext.setAttribute("user", user);
-
+	
+      Query subquery = new Query("Subscribers");
+      
+      List<Entity> subs = datastore.prepare(subquery).asList(FetchOptions.Builder.withLimit(10000));
+      
+      for(Entity a : subs) {
+      	if(a.getProperty("user").equals(user)){
+			isSubscribed = true;
+      	}
+      }
+      
+      
+      
 	%>
 
 	<p>Hello, ${fn:escapeXml(user.nickname)}! (You can
 
 	<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
+	
 
 	<%
+	
+	if(!isSubscribed){
+		%>
+  		
+			<form action="/subscribe" method = "post">
+		<div><input type="submit" value="Subscribe!"></div>
+		</form>
+		
+		
+		<%
+  	}
+  
 
     } else {
 
@@ -66,9 +95,8 @@
 
 	<%
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-//    Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
+
 
     // Run an ancestor query to ensure we see the most up-to-date
 
