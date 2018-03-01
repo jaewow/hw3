@@ -24,8 +24,17 @@
     	<url-pattern>/subscribe</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+    	<servlet-name>unsubscribe</servlet-name>
+    	<servlet-class>blog.UnsubscribeServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+ 	   <servlet-name>unsubscribe</servlet-name>
+    	<url-pattern>/unsubscribe</url-pattern>
+    </servlet-mapping>
+    
 	<servlet>
-
 		<servlet-name>cron</servlet-name>
 		<servlet-class>blog.CronServlet</servlet-class>
 	</servlet>

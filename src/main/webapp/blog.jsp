@@ -69,6 +69,16 @@
 		
 		<%
   	}
+	else{
+		%>
+  		
+		<form action="/unsubscribe" method = "post">
+		<div><input type="submit" value="Unsubscribe!"></div>
+		</form>
+	
+	
+		<%
+	}
   
 
     } else {
