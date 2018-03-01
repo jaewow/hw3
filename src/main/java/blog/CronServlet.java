@@ -3,6 +3,8 @@ package blog;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -17,11 +19,14 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.User;
+
+
 @SuppressWarnings("serial")
 
 
 
 public class CronServlet extends HttpServlet {
+	private static final Logger _logger = Logger.getLogger(CronServlet.class.getName());
 	
 	private static int index;
 	private static boolean hasStarted = false; 
@@ -34,7 +39,7 @@ throws IOException {
 	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Query query = new Query("Subscribers");
-    Query q2 = new Query("BlogPost").addSort("date", Query.SortDirection.DESCENDING);
+    Query q2 = new Query("BlogPost").addSort("date", Query.SortDirection.ASCENDING);
     List<Entity> posts = datastore.prepare(q2).asList(FetchOptions.Builder.withLimit(10000));
     int size = posts.size();
     
@@ -50,6 +55,17 @@ throws IOException {
     
     List<Entity> subs = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10000));
     
+    String strBody = "";
+	for(int x = CronServlet.index; x < size; x++) {
+		Entity b = posts.get(x);
+		strBody = strBody + "Title : " +  b.getProperty("title");
+		strBody = strBody + "\n";
+		strBody = strBody + "Body : " + b.getProperty("content") + "\n";
+		strBody = strBody + "on " + b.getProperty("date") + "\n\n";
+	}
+    
+	_logger.info(strBody);
+	
     for(Entity a : subs) {
 	
 	String strCallResult = "";
@@ -61,12 +77,7 @@ throws IOException {
 		String strTo = subscriber.getEmail();
 		String strSubject = "The Basic Blog Updates!";
 		
-		String strBody = "";
-		for(int x = CronServlet.index; x < size; x++) {
-			Entity b = posts.get(x);
-			strBody = strBody + b.getProperty("title");
-			strBody = strBody + "\n";
-		}
+		
 		
 		//Do validations here. Only basic ones i.e. cannot be null/empty
 		//Currently only checking the To Email field
